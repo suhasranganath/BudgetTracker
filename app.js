@@ -31,8 +31,19 @@ var UIController = (function(){
 
 //App Controller
 var controller = (function( UIctrl, budgetCtrl ){
-    var DOM = UIctrl.getDOMstrings();
+    
 
+    var setupEventListeners = function(){
+        var DOM = UIctrl.getDOMstrings();
+
+        document.querySelector(DOM.button).addEventListener('click',ctrlAddItem);
+
+        document.addEventListener('keypress', function(e){
+            if(e.keyCode === 13 || e.which === 13){
+                ctrlAddItem();
+            }
+        });
+    };
 
     var ctrlAddItem = function(){
         //TODO
@@ -44,13 +55,14 @@ var controller = (function( UIctrl, budgetCtrl ){
         //4. Calculate Budget
         //5. Display the updated budget summary
         
-    }
-    
-    document.querySelector(DOM.button).addEventListener('click',ctrlAddItem);
+    };
 
-    document.addEventListener('keypress', function(e){
-        if(e.keyCode === 13 || e.which === 13){
-            ctrlAddItem();
+    return{
+        init: function(){
+            setupEventListeners();
         }
-    });
+    }    
 })( UIController, budgetController );
+
+
+controller.init();
