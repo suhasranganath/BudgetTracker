@@ -170,6 +170,13 @@ var UIController = (function(){
         
 
     };
+
+    var nodeListForEach= function(list, callback){
+        for(var i=0; i < list.length; i++){
+            callback(list[i], i);
+        }
+    };
+
     //Get values from user
     return{
         getInput: function(){
@@ -246,13 +253,7 @@ var UIController = (function(){
         displayPercentages: function(percentages){
             var fields = document.querySelectorAll(DOMstrings.item_percentage);
 
-            var NodeListForEach= function(list, callback){
-                for(var i=0; i < list.length; i++){
-                    callback(list[i], i);
-                }
-            };
-
-            NodeListForEach(fields, function(current, index){
+            nodeListForEach(fields, function(current, index){
                 if(percentages[index] > 0){
                     current.textContent = percentages[index]+'%';
                 }else{
@@ -272,7 +273,19 @@ var UIController = (function(){
             year = now.getFullYear();
 
             document.querySelector(DOMstrings.datehandler).textContent = months[month] +' '+year;
-        }
+        },
+
+        changedType: function(){
+            var fields;
+
+            fields = document.querySelectorAll(DOMstrings.type+','+DOMstrings.desc+','+DOMstrings.value);
+
+            nodeListForEach(fields,function(cur){
+                cur.classList.toggle('red-focus');
+            });
+
+            document.querySelector(DOMstrings.button).classList.toggle('red');
+        },
     }
 
 })();
@@ -293,6 +306,8 @@ var controller = (function( UIctrl, budgetCtrl ){
         });
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+        document.querySelector(DOM.type).addEventListener('change', UIctrl.changedType);
     };
 
     var updateBudget = function(){
