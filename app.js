@@ -10,6 +10,8 @@ var budgetController = (function(){
     Expense.prototype.caluculatePercentage = function(totalIncome){
         if(totalIncome>0){
             this.percentage = Math.round((this.value/totalIncome)*100);
+        }else{
+            this.percentage = -1;
         }
     };
 
@@ -84,8 +86,6 @@ var budgetController = (function(){
             });
 
             var index = ids.indexOf(id);
-            console.log(index);
-
             data.allItems[type].splice(index, 1);
         },
 
@@ -99,6 +99,8 @@ var budgetController = (function(){
             //Calculate the percentage of income that we spent
             if(data.totals.inc > 0){
                 data.percent = Math.round((data.totals.exp/data.totals.inc)*100);
+            }else{
+                data.percent = -1;
             }
         },
 
@@ -127,9 +129,6 @@ var budgetController = (function(){
             }
         },
         
-        testing: function(){
-            console.log(data);
-        }
     }
 })();
 
@@ -266,7 +265,6 @@ var UIController = (function(){
             var now, months, month, year;
             now = new Date();
 
-            console.log(now);
             months= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
             month = now.getMonth();
